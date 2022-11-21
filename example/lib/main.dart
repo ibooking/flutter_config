@@ -11,9 +11,9 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var allValues = <Widget>[];
+    final List<Widget> allValues = <Widget>[];
 
-    FlutterConfig.variables.forEach((k, v) {
+    FlutterConfig.variables.forEach((String k, dynamic v) {
       allValues.add(Text('$k: $v'));
     });
 
@@ -23,13 +23,16 @@ class MyApp extends StatelessWidget {
           title: const Text('Plugin example app'),
         ),
         body: Center(
-            child: Column(children: [
-          ...allValues,
-          SizedBox(
-            height: 20,
+          child: Column(
+            children: <Widget>[
+              ...allValues,
+              SizedBox(
+                height: 20,
+              ),
+              Text('Values of fabric Id: ${FlutterConfig.get('FABRIC_ID')}')
+            ],
           ),
-          Text('Values of fabric Id: ${FlutterConfig.get('FABRIC_ID')}')
-        ])),
+        ),
       ),
     );
   }

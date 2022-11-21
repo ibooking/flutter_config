@@ -13,21 +13,21 @@ class FlutterConfig {
   // Instance of FlutterConfig
   static final FlutterConfig _instance = FlutterConfig._internal();
 
-  static const MethodChannel _channel = const MethodChannel('flutter_config');
+  static const MethodChannel _channel = MethodChannel('flutter_config');
 
   /// Variables need to be loaded on app startup, recommend to do it `main.dart`
-  static loadEnvVariables() async {
+  static Future<void> loadEnvVariables() async {
     final Map<String, dynamic>? loadedVariables =
         await _channel.invokeMapMethod('loadEnvVariables');
-    _instance._variables = loadedVariables ?? {};
+    _instance._variables = loadedVariables ?? <String, dynamic>{};
   }
 
   /// Returns a specific variable value give a [key]
   static dynamic get(String key) {
-    var variables = _instance._variables;
+    final Map<String, dynamic> variables = _instance._variables;
 
     if (variables.isEmpty) {
-      print(
+      debugPrint(
         'FlutterConfig Variables are Empty\n'
         'Ensure you have a .env file and you\n'
         'have loaded the variables',
@@ -35,7 +35,7 @@ class FlutterConfig {
     } else if (variables.containsKey(key)) {
       return variables[key];
     } else {
-      print(
+      debugPrint(
         'FlutterConfig Value for Key($key) not found\n'
         'Ensure you have it in .env file',
       );
@@ -47,7 +47,8 @@ class FlutterConfig {
       Map<String, dynamic>.of(_instance._variables);
 
   @visibleForTesting
-  static loadValueForTesting(Map<String, dynamic> values) {
+  // ignore: use_setters_to_change_properties
+  static void loadValueForTesting(Map<String, dynamic> values) {
     _instance._variables = values;
   }
 }
