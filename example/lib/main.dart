@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
           child: Column(
             children: <Widget>[
               ...allValues,
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Text('Values of fabric Id: ${FlutterConfig.get('FABRIC_ID')}')
